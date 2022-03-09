@@ -43,9 +43,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Uncomment this later for UWM
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // Add a marker in UWM Campus and move the camera
+        LatLng uwm = new LatLng(43.079596, -87.882810);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(uwm));
     }
 }
