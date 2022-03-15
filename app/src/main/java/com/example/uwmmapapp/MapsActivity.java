@@ -6,6 +6,8 @@ import android.location.Location;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -75,6 +77,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //AutoComplete Inputs
+        String[] uwmBuildings = getResources().getStringArray(R.array.uwmBuildings);
+
+        AutoCompleteTextView fromInput = findViewById(R.id.fromInputId);
+        AutoCompleteTextView toInput = findViewById(R.id.toInputId);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, uwmBuildings);
+
+        fromInput.setAdapter(adapter);
+        toInput.setAdapter(adapter);
     }
 
     /**
