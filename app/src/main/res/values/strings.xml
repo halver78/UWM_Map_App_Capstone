@@ -1,4 +1,59 @@
 <resources>
-    <string name="app_name">UWM Map App</string>
-    <string name="title_activity_maps">MapsActivity</string>
+        <string name="app_name">UWM Map App</string>
+        <string name="title_activity_maps">MapsActivity</string>
+        <string-array name="uwmBuildings">
+                <item>UWM Student Union</item>
+                <item>Mellencamp Hall</item>
+                <item>Mitchell Hall</item>
+                <item>Purin Hall</item>
+                <item>Zelazo Center for the Performing Arts</item>
+                <item>Spaights Plaza</item>
+                <item>Music Building</item>
+                <item>Theater Building</item>
+                <item>Bolton Hall</item>
+                <item>Lubar Hall</item>
+                <item>Golda Meir Library</item>
+                <item>Curtin Hall</item>
+                <item>Vogel Hall</item>
+                <item>Pearse Hall</item>
+                <item>Garland Hall</item>
+                <item>Johnston Hall</item>
+                <item>Enderis Hall</item>
+                <item>Holton Hall</item>
+                <item>Merrill Hall</item>
+                <item>Greene Hall</item>
+                <item>Norris Health Center</item>
+                <item>Sabin Hall</item>
+                <item>Pavillion</item>
+                <item>Grounds Building</item>
+                <item>Downer Woods</item>
+                <item>Sandburg Residence Hall West Tower</item>
+                <item>Chapman Hall</item>
+                <item>Honors House</item>
+                <item>Northwest Quadrant Building A</item>
+                <item>Northwest Quadrant Building B</item>
+                <item>Northwest Quadrant Building C</item>
+                <item>Northwest Quadrant Building D</item>
+                <item>Northwest Quadrant Building E</item>
+                <item>Cunningham Hall</item>
+                <item>Engelmann Hall</item>
+                <item>Architecture &amp; Urban Planning Bldg.</item>
+                <item>Chemistry Building</item>
+                <item>Engineering and Math. Science Building</item>
+                <item>Lapham Hall</item>
+                <item>Kenwood Interdisciplinary Research Complex</item>
+                <item>Physics Building</item>
+                <item>Lubar Entrepreneurship Center &amp; UWM Welcome Center</item>
+                <item>Hefter Conference Center</item>
+                <item>(USR) University Services and Research Building</item>
+                <item>Eastlake Towers</item>
+                <item>RiverView Residence Hall</item>
+                <item>Cambridge Commons</item>
+                <item>Kenilworth Square Apartments</item>
+                <item>Kenilworth Square East</item>
+                <item>Zilber School of Public Health Building</item>
+                <item>Continuing Education Plankinton Building</item>
+                <item>Global Water Center</item>
+                <item>School of Freshwater Sciences</item>
+        </string-array>
 </resources>
