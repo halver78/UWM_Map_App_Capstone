@@ -31,11 +31,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-
 import java.util.Arrays;
 import java.util.List;
 
+import android.widget.Button;
+import android.content.Intent;
+import android.view.View;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    public Button button;
 
     private GoogleMap mMap;
     private static final String TAG = MapsActivity.class.getSimpleName();
@@ -89,6 +94,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         fromInput.setAdapter(adapter);
         toInput.setAdapter(adapter);
+
+        button = (Button) findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(MapsActivity.this,BuildingList.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     /**
@@ -105,6 +119,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in UWM Campus and move the camera
+
 //        LatLng uwm = new LatLng(43.075231, -87.881425);
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(uwm));
 
@@ -119,6 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         final LatLng UWMUnion = new LatLng(43.0748, -87.8819);
         Marker uwmUnion = mMap.addMarker(
+
                     new MarkerOptions()
                             .position(UWMUnion)
                             .title("UWM Student Union"));
@@ -182,6 +198,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
+
     }
 
     /**
