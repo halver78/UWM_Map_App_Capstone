@@ -103,7 +103,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
     }
 
     /**
@@ -120,8 +119,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in UWM Campus and move the camera
-        // LatLng uwm = new LatLng(43.075231, -87.881425);
-        // mMap.moveCamera(CameraUpdateFactory.newLatLng(uwm));
+
+//        LatLng uwm = new LatLng(43.075231, -87.881425);
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(uwm));
+
         // Prompt the user for permission.
         getLocationPermission();
 
@@ -133,11 +134,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         final LatLng UWMUnion = new LatLng(43.0748, -87.8819);
         Marker uwmUnion = mMap.addMarker(
-                new MarkerOptions()
-                        .position(UWMUnion)
-                        .title("UWM Student Union"));
-        // uwmUnion.showInfoWindow();
+
+                    new MarkerOptions()
+                            .position(UWMUnion)
+                            .title("UWM Student Union"));
+//        uwmUnion.showInfoWindow();
+
+
     }
+
     /**
      * Gets the current location of the device, and positions the map's camera.
      */
@@ -174,6 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e("Exception: %s", e.getMessage(), e);
         }
     }
+
     /**
      * Prompts the user for permission to use the device location.
      */
@@ -192,7 +198,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
+
     }
+
     /**
      * Handles the result of the request for location permissions.
      */
@@ -212,6 +220,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         updateLocationUI();
     }
+
     /**
      * Updates the map's UI settings based on whether the user has granted location permission.
      */
@@ -234,4 +243,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.e("Exception: %s", e.getMessage());
         }
     }
+
 }
