@@ -2,6 +2,7 @@ package com.example.uwmmapapp;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -28,6 +29,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -146,7 +149,18 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                         .title("UWM Student Union"));
 //        uwmUnion.showInfoWindow();
 
+        PolygonOptions polygonOptions = new PolygonOptions()
+                .add(new LatLng(43.081929, -87.882696),
+                        new LatLng(43.081918, -87.877730 ),
+                        new LatLng(43.074692, -87.877918),
+                        new LatLng(43.074736, -87.886634),
+                        new LatLng(43.077628, -87.886551),
+                        new LatLng(43.077645, -87.885884),
+                        new LatLng(43.079447, -87.885839),
+                        new LatLng(43.079442, -87.882763));
 
+        Polygon polygon = mMap.addPolygon(polygonOptions
+                .strokeColor(Color.RED));
     }
 
     /**
