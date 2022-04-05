@@ -2,7 +2,6 @@ package com.example.uwmmapapp;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -29,8 +28,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -40,10 +37,12 @@ import java.util.List;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements View.OnClickListener, OnMapReadyCallback {
 
     public Button button;
+    public Button currentLocBtn;
 
     private GoogleMap mMap;
     private static final String TAG = MapsActivity.class.getSimpleName();
@@ -106,6 +105,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        // Adding functionality to the button
+        currentLocBtn = findViewById(R.id.currentLoc);
+        currentLocBtn.setOnClickListener(this);
+
     }
 
     /**
@@ -138,23 +141,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final LatLng UWMUnion = new LatLng(43.0748, -87.8819);
         Marker uwmUnion = mMap.addMarker(
 
-                    new MarkerOptions()
-                            .position(UWMUnion)
-                            .title("UWM Student Union"));
+                new MarkerOptions()
+                        .position(UWMUnion)
+                        .title("UWM Student Union"));
 //        uwmUnion.showInfoWindow();
-
-        PolygonOptions polygonOptions = new PolygonOptions()
-                .add(new LatLng(43.081929, -87.882696),
-                        new LatLng(43.081918, -87.877730 ),
-                        new LatLng(43.074692, -87.877918),
-                        new LatLng(43.074736, -87.886634),
-                        new LatLng(43.077628, -87.886551),
-                        new LatLng(43.077645, -87.885884),
-                        new LatLng(43.079447, -87.885839),
-                        new LatLng(43.079442, -87.882763));
-
-        Polygon polygon = mMap.addPolygon(polygonOptions
-                .strokeColor(Color.RED));
 
 
     }
@@ -177,7 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             // Set the map's camera position to the current location of the device.
                             lastKnownLocation = task.getResult();
                             if (lastKnownLocation != null) {
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                             }
@@ -260,4 +250,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        this.getDeviceLocation();
+    }
 }
