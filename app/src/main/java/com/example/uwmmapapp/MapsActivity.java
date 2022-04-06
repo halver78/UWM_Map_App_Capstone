@@ -40,12 +40,13 @@ import java.util.List;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class MapsActivity extends FragmentActivity implements View.OnClickListener, OnMapReadyCallback {
 
     public Button button;
-    public Button currentLocBtn;
+    public ImageButton currentLocBtn;
 
     private GoogleMap mMap;
     private static final String TAG = MapsActivity.class.getSimpleName();

@@ -58,8 +58,10 @@
 
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/currentLoc"
+        android:src="@drawable/current_loc_icon"
+        tools:ignore="SpeakableTextPresentCheck"
         android:layout_width="45sp"
         android:layout_height="45sp"
         android:layout_alignEnd="@id/map"
@@ -67,7 +69,7 @@
         android:layout_alignBottom="@id/map"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="100dp"
-        android:src="@drawable/current_loc_icon" />
+        android:layout_marginBottom="100dp" >
+    </ImageButton>
 
 </RelativeLayout>
