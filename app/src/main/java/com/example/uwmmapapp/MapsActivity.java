@@ -40,10 +40,13 @@ import java.util.List;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements View.OnClickListener, OnMapReadyCallback {
 
     public Button button;
+    public ImageButton currentLocBtn;
 
     private GoogleMap mMap;
     private static final String TAG = MapsActivity.class.getSimpleName();
@@ -106,6 +109,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        // Adding functionality to the button
+        currentLocBtn = findViewById(R.id.currentLoc);
+        currentLocBtn.setOnClickListener(this);
+
     }
 
     /**
@@ -138,9 +145,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final LatLng UWMUnion = new LatLng(43.0748, -87.8819);
         Marker uwmUnion = mMap.addMarker(
 
-                    new MarkerOptions()
-                            .position(UWMUnion)
-                            .title("UWM Student Union"));
+                new MarkerOptions()
+                        .position(UWMUnion)
+                        .title("UWM Student Union"));
 //        uwmUnion.showInfoWindow();
 
         PolygonOptions polygonOptions = new PolygonOptions()
@@ -155,8 +162,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Polygon polygon = mMap.addPolygon(polygonOptions
                 .strokeColor(Color.RED));
-
-
     }
 
     /**
@@ -177,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             // Set the map's camera position to the current location of the device.
                             lastKnownLocation = task.getResult();
                             if (lastKnownLocation != null) {
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                             }
@@ -260,4 +265,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        this.getDeviceLocation();
+    }
 }
