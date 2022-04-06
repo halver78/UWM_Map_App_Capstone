@@ -60,12 +60,13 @@
 
     <Button
         android:id="@+id/currentLoc"
+        android:src="@drawable/current_loc_icon"
+        android:background="@android:color/transparent"
         android:layout_width="43sp"
         android:layout_height="45sp"
-        android:layout_alignBottom="@id/map"
         android:layout_alignEnd="@id/map"
         android:layout_alignRight="@id/map"
-        android:layout_marginRight="10sp"
+        android:layout_alignBottom="@id/map"
         android:layout_marginBottom="100sp" />
 
 </RelativeLayout>
