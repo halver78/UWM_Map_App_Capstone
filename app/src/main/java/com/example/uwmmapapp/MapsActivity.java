@@ -36,6 +36,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import android.widget.Button;
 import android.content.Intent;
@@ -100,6 +101,26 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         fromInput.setAdapter(adapter);
         toInput.setAdapter(adapter);
+
+        // Markers
+        Coordinates.init();
+        Map<String,double[]> coords = Coordinates.getcoords();
+        if(coords.containsKey(fromInput)){
+            double[] val = coords.get(fromInput);
+            final LatLng ll = new LatLng(val[0],val[1]);
+            Marker marker = mMap.addMarker(
+                    new MarkerOptions()
+                            .position(ll)
+                            .title(fromInput.toString()));
+        }
+        if(coords.containsKey(toInput)){
+            double[] val = coords.get(toInput);
+            final LatLng ll = new LatLng(val[0],val[1]);
+            Marker marker = mMap.addMarker(
+                    new MarkerOptions()
+                            .position(ll)
+                            .title(fromInput.toString()));
+        }
 
         button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener(){
