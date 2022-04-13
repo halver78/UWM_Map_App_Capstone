@@ -2,7 +2,10 @@ package com.example.uwmmapapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -21,6 +24,17 @@ public class BuildingList extends AppCompatActivity {
         final ListView theListView = (ListView) findViewById(R.id.theListView);
 
         theListView.setAdapter(adapter);
+
+//        checkPdfAction(intent)
+//
+//        private fun checkPdfAction(intent:Intent) {
+//            when (intent.getStringExtra("ViewType")) {
+//                "assets" -> {
+//                    // perform action to show pdf from assets
+//                }
+//            }
+//        }
+
 
 
     }

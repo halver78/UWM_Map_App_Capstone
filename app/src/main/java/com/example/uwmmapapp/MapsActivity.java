@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
@@ -36,6 +37,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import android.widget.Button;
 import android.content.Intent;
@@ -47,6 +49,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
     public Button button;
     public ImageButton currentLocBtn;
+    public AutoCompleteTextView fromInput;
+    public AutoCompleteTextView toInput;
 
     private GoogleMap mMap;
     private static final String TAG = MapsActivity.class.getSimpleName();
@@ -92,14 +96,56 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         //AutoComplete Inputs
         String[] uwmBuildings = getResources().getStringArray(R.array.uwmBuildings);
 
-        AutoCompleteTextView fromInput = findViewById(R.id.fromInputId);
-        AutoCompleteTextView toInput = findViewById(R.id.toInputId);
+        fromInput = findViewById(R.id.fromInputId);
+        toInput = findViewById(R.id.toInputId);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, uwmBuildings);
 
+
+        // Markers
+        Coordinates.init();
+        Map<String,double[]> coords = Coordinates.getcoords();
+
         fromInput.setAdapter(adapter);
+        fromInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String fromInputItem = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, fromInputItem);
+                    if(coords.containsKey(fromInputItem)){
+                        double[] val = coords.get(fromInputItem);
+                        final LatLng fromInputll = new LatLng(val[0],val[1]);
+                        Marker marker = mMap.addMarker(
+                                new MarkerOptions()
+                                        .position(fromInputll)
+                                        .title(fromInputItem)
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    }
+
+            }
+        });
+
         toInput.setAdapter(adapter);
+        toInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String toInputItem = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, toInputItem);
+                if(coords.containsKey(toInputItem)){
+                    double[] val = coords.get(toInputItem);
+
+                    final LatLng toInputll = new LatLng(val[0],val[1]);
+                    Marker marker = mMap.addMarker(
+                            new MarkerOptions()
+                                    .position(toInputll)
+                                    .title(toInputItem)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                }
+
+            }
+        });
+
 
         button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener(){
@@ -141,14 +187,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
-
-        final LatLng UWMUnion = new LatLng(43.0748, -87.8819);
-        Marker uwmUnion = mMap.addMarker(
-
-                new MarkerOptions()
-                        .position(UWMUnion)
-                        .title("UWM Student Union"));
-//        uwmUnion.showInfoWindow();
+        
 
         PolygonOptions polygonOptions = new PolygonOptions()
                 .add(new LatLng(43.081929, -87.882696),
@@ -162,6 +201,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         Polygon polygon = mMap.addPolygon(polygonOptions
                 .strokeColor(Color.RED));
+
     }
 
     /**

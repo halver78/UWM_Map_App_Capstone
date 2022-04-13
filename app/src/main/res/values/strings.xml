@@ -57,4 +57,7 @@
         <item>Global Water Center</item>
         <item>School of Freshwater Sciences</item>
     </string-array>
+    <string name="title_activity_pdf_view">pdf_view</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
