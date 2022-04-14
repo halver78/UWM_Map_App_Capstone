@@ -35,6 +35,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -220,7 +222,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)
+    {
         mMap = googleMap;
 
         // Add a marker in UWM Campus and move the camera
@@ -239,7 +242,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         ArrayList<LatLng> coordinates = new ArrayList<>();
         System.out.println("Trying googleAPI now.");
-        try {
+        try
+        {
             coordinates = callGoogleAPI();
             PolylineOptions polylineOptions = new PolylineOptions();
             polylineOptions.add(
@@ -250,12 +254,28 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                     new LatLng(43.07555079999999, -87.8860433)
             ).color(Color.BLUE);
             mMap.addPolyline(polylineOptions);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
         for (int i = 0; i < coordinates.size(); i++) {
             System.out.println("Coordinates at index " + i + " is: " + coordinates.get(i));
         }
+
+
+        PolygonOptions polygonOptions = new PolygonOptions().add(
+                new LatLng(43.081929, -87.882696),
+                new LatLng(43.081918, -87.877730),
+                new LatLng(43.074692, -87.877918),
+                new LatLng(43.074736, -87.886634),
+                new LatLng(43.077628, -87.886551),
+                new LatLng(43.077645, -87.885884),
+                new LatLng(43.079447, -87.885839),
+                new LatLng(43.079442, -87.882763)
+        );
+
+        Polygon polygon = mMap.addPolygon(polygonOptions.strokeColor(Color.RED));
         mMap.addMarker(source);
         mMap.addMarker(destination);
     }
