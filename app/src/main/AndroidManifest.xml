@@ -26,6 +26,9 @@
         <activity
             android:name=".BuildingList"
             android:exported="false" />
+        <activity
+            android:name=".MapView"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 

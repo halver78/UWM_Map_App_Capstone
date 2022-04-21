@@ -10,32 +10,29 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-public class BuildingList extends AppCompatActivity {
+public class BuildingList extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_building_list);
 
+        ListView s = (ListView) findViewById(R.id.theListView);;
+
         String[] uwmBuild = getResources().getStringArray(R.array.uwmBuildings);
 
         ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, uwmBuild);
 
-        final ListView theListView = (ListView) findViewById(R.id.theListView);
+        s.setAdapter(adapter);
 
-        theListView.setAdapter(adapter);
-
-//        checkPdfAction(intent)
-//
-//        private fun checkPdfAction(intent:Intent) {
-//            when (intent.getStringExtra("ViewType")) {
-//                "assets" -> {
-//                    // perform action to show pdf from assets
-//                }
-//            }
-//        }
-
-
-
+        s.setOnItemClickListener(this);
+    }
+    @Override
+    public void onItemClick (AdapterView<?> parent, View view, int position, long id){
+        // do stuff: if a page exists, display it
+        //if(view.toString().compareTo("UWM Student Union") == 0) {
+            Intent intent = new Intent(BuildingList.this, MapView.class);
+            startActivity(intent);
+        //}
     }
 }
