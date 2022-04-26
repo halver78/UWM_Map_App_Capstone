@@ -4,9 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/drawable/union.xml" value="0.1685" />
+        <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/layout/activity_bolton_hall.xml" value="0.125" />
         <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/layout/activity_building_list.xml" value="0.1" />
+        <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/layout/activity_chem_map.xml" value="0.1640625" />
+        <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/layout/activity_ems_map.xml" value="0.1" />
+        <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/layout/activity_lubar_hall.xml" value="0.1" />
         <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/layout/activity_maps.xml" value="0.16595744680851063" />
         <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/layout/activity_pdf_view.xml" value="0.165625" />
+        <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/layout/activity_union_map.xml" value="0.12916666666666668" />
         <entry key="..\:/Users/Leeann/StudioProjects/UWM_Map_App_Capstone/app/src/main/res/layout/map_view.xml" value="0.14221014492753623" />
         <entry key="..\:/Users/Shaun/Documents/UWMMapApp/app/src/main/res/layout/activity_maps.xml" value="0.31354166666666666" />
         <entry key="..\:/Users/madhu/Documents/CS/Spring 2022/Capstone/UWM_Map_App_Capstone/app/src/main/res/drawable/arrow.xml" value="0.144" />

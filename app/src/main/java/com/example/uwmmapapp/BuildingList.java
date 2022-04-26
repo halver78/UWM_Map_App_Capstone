@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,9 +31,22 @@ public class BuildingList extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick (AdapterView<?> parent, View view, int position, long id){
         // do stuff: if a page exists, display it
-        //if(view.toString().compareTo("UWM Student Union") == 0) {
-            Intent intent = new Intent(BuildingList.this, MapView.class);
-            startActivity(intent);
-        //}
+        String data = (String)parent.getItemAtPosition(position);
+        Log.d("View value as String", data);
+        if(data.compareTo("UWM Student Union") == 0) {
+            setContentView(R.layout.activity_union_map);
+        }
+        else if(data.compareTo("Bolton Hall") == 0){
+            setContentView(R.layout.activity_bolton_hall);
+        }
+        else if(data.compareTo("Lubar Hall") == 0){
+            setContentView(R.layout.activity_lubar_hall);
+        }
+        else if(data.compareTo("Engineering and Math. Science Building") == 0){
+            setContentView(R.layout.activity_ems_map);
+        }
+        else if(data.compareTo("Chemistry Building") == 0){
+            setContentView(R.layout.activity_chem_map);
+        }
     }
 }
