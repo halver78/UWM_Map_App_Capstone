@@ -34,6 +34,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -89,7 +90,9 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     public volatile String tripDistance = "";
     public Button button;
     public ImageButton currentLocBtn;
-
+    public ImageButton mapLayersViewBtn;
+    public AutoCompleteTextView fromInput;
+    public AutoCompleteTextView toInput;
     private GoogleMap mMap;
     private static final String TAG = MapsActivity.class.getSimpleName();
     private ActivityMapsBinding binding;
@@ -151,10 +154,34 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         AutoCompleteTextView toInput = findViewById(R.id.toInput);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, uwmBuildings);
 
-        // Markers
+        fromInput.setAdapter(adapter);
+        toInput.setAdapter(adapter);
+
+        createToFromMarkers(fromInput, toInput);
+
+        button = (Button) findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(MapsActivity.this,BuildingList.class);
+                startActivity(intent);
+            }
+        });
+
+        // Adding functionality to the button
+        currentLocBtn = findViewById(R.id.currentLoc);
+        currentLocBtn.setOnClickListener(this);
+
+    }
+
+    /**
+     * Creates a Marker at the specified location user has selected for their to&from locations
+     */
+    public void createToFromMarkers(AutoCompleteTextView fromInput, AutoCompleteTextView toInput)
+    {
         Coordinates.init();
         Map<String, double[]> coords = Coordinates.getcoords();
-
+        //fromInput will respond once the user selects one of the options from the autocomplete options
+        fromInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
         fromInput.setAdapter(adapter);
         fromInput.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -163,6 +190,22 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             {
                 String fromInputItem = parent.getItemAtPosition(position).toString();
                 Log.d(TAG, fromInputItem);
+                if(coords.containsKey(fromInputItem)){
+                    double[] val = coords.get(fromInputItem);
+                    final LatLng fromInputll = new LatLng(val[0],val[1]);
+                    Marker marker = mMap.addMarker(
+                            new MarkerOptions()
+                                    .position(fromInputll)
+                                    .title(fromInputItem)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                }
+
+            }
+        });
+
+
+        //toInput will respond once the user selects one of the options from the autocomplete options
+        toInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 if (coords.containsKey(fromInputItem))
                 {
                     double[] val = coords.get(fromInputItem);
@@ -364,6 +407,22 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             }
         });
     }
+    /**
+     * Switches the view of the map from normal to sattlite view and vise versa with a click of a button
+     * @param view
+     */
+    public void mapView(View view)
+    {
+        if(mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        }
+        else if(mMap.getMapType() == GoogleMap.MAP_TYPE_SATELLITE)
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        }
+    }
+
     /**
      * Gets the current location of the device, and positions the map's camera.
      */
