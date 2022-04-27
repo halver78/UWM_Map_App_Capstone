@@ -28,6 +28,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
@@ -49,6 +50,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
     public Button button;
     public ImageButton currentLocBtn;
+    public ImageButton mapLayersViewBtn;
     public AutoCompleteTextView fromInput;
     public AutoCompleteTextView toInput;
 
@@ -101,7 +103,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, uwmBuildings);
-        
+
 
         fromInput.setAdapter(adapter);
         toInput.setAdapter(adapter);
@@ -213,6 +215,22 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         Polygon polygon = mMap.addPolygon(polygonOptions
                 .strokeColor(Color.RED));
 
+    }
+
+    /**
+     * Switches the view of the map from normal to sattlite view and vise versa with a click of a button
+     * @param view
+     */
+    public void mapView(View view)
+    {
+        if(mMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL)
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        }
+        else if(mMap.getMapType() == GoogleMap.MAP_TYPE_SATELLITE)
+        {
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        }
     }
 
     /**
