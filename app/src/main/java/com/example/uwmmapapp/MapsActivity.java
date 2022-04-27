@@ -142,59 +142,49 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         setContentView(binding.getRoot());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         //AutoComplete Inputs
         String[] uwmBuildings = getResources().getStringArray(R.array.uwmBuildings);
-
         AutoCompleteTextView fromInput = findViewById(R.id.fromInput);
         AutoCompleteTextView toInput = findViewById(R.id.toInput);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, uwmBuildings);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, uwmBuildings);
 
         // Markers
         Coordinates.init();
         Map<String, double[]> coords = Coordinates.getcoords();
 
         fromInput.setAdapter(adapter);
-        fromInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        fromInput.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 String fromInputItem = parent.getItemAtPosition(position).toString();
                 Log.d(TAG, fromInputItem);
-                if (coords.containsKey(fromInputItem)) {
+                if (coords.containsKey(fromInputItem))
+                {
                     double[] val = coords.get(fromInputItem);
                     final LatLng fromInputll = new LatLng(val[0], val[1]);
-                    Marker marker = mMap.addMarker(
-                            new MarkerOptions()
-                                    .position(fromInputll)
-                                    .title(fromInputItem)
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(fromInputll).title(fromInputItem).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                 }
-
             }
         });
 
         toInput.setAdapter(adapter);
-        toInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        toInput.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String toInputItem = parent.getItemAtPosition(position).toString();
                 Log.d(TAG, toInputItem);
-                if (coords.containsKey(toInputItem)) {
+                if (coords.containsKey(toInputItem))
+                {
                     double[] val = coords.get(toInputItem);
-
                     final LatLng toInputll = new LatLng(val[0], val[1]);
-                    Marker marker = mMap.addMarker(
-                            new MarkerOptions()
-                                    .position(toInputll)
-                                    .title(toInputItem)
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(toInputll).title(toInputItem).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                 }
-
             }
         });
 
@@ -242,8 +232,10 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         });
 
         button = (Button) findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
                 Intent intent = new Intent(MapsActivity.this, BuildingList.class);
                 startActivity(intent);
             }
@@ -274,26 +266,17 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
-
         // Add a marker in UWM Campus and move the camera
-//        LatLng uwm = new LatLng(43.075231, -87.881425);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(uwm));
-
+        // LatLng uwm = new LatLng(43.075231, -87.881425);
+        // mMap.moveCamera(CameraUpdateFactory.newLatLng(uwm));
         // Prompt the user for permission.
-//        getLocationPermission();
+        // getLocationPermission();
         // Turn on the My Location layer and the related control on the map.
-//        updateLocationUI();
+        // updateLocationUI();
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
 
-        MarkerOptions source = new MarkerOptions().position(new LatLng(43.074903160434566, -87.88194941239998)).title("You");
-        MarkerOptions destination = new MarkerOptions().position(new LatLng(43.0756846004461, -87.88602947476944)).title("EMS");
-
-
-        System.out.println("Trying googleAPI now.");
-
-
-
+        // Outer boundary around UWM
         PolygonOptions polygonOptions = new PolygonOptions().add(
                 new LatLng(43.081929, -87.882696),
                 new LatLng(43.081918, -87.877730),
@@ -304,10 +287,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 new LatLng(43.079447, -87.885839),
                 new LatLng(43.079442, -87.882763)
         );
-
         Polygon polygon = mMap.addPolygon(polygonOptions.strokeColor(Color.RED));
-        mMap.addMarker(source);
-        mMap.addMarker(destination);
     }
 
     /**
@@ -315,18 +295,15 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
      */
     public void callGoogleAPI(MarkerOptions source, MarkerOptions destination) throws IOException
     {
-
+        // Grab parameters and format data for request
         String origin = "origin=" + source.getPosition().latitude + "," + source.getPosition().longitude;
         String destinationString = "&destination=" + destination.getPosition().latitude + "," + destination.getPosition().longitude;
         String key = "&key=AIzaSyCLhKMFyZBv-aWajXFnEWIFzhRdI7gNHps";
         String mode = "&mode=walking";
         String directionsURL = "https://maps.googleapis.com/maps/api/directions/json?" + origin + destinationString + key + mode;
-
-        //System.out.println("DirectionsURL is: " + directionsURL);
         // Create API Client object
         OkHttpClient client = new OkHttpClient().newBuilder().build();
         Request request = new Request.Builder().url(directionsURL).method("GET", null).build();
-
         // Create new thread to launch api request.
         client.newCall(request).enqueue(new Callback()
         {
@@ -338,7 +315,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onResponse(Call call, Response response) throws IOException
             {
-
                 if (response.isSuccessful())
                 {
                     final String myResponse = response.body().string();
@@ -349,30 +325,19 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                         String routesArray = jArray.getString(0);
                         JSONObject routesObject = new JSONObject(routesArray);
                         String overViewPolyLine = routesObject.getString("overview_polyline");
-                        //System.out.println("routesObject are " + routesObject);
-                        //System.out.println("overViewPolyLine is " + overViewPolyLine);
                         JSONObject pointsObject = new JSONObject(overViewPolyLine);
                         String pointValue = pointsObject.getString("points");
-                        //System.out.println("Final point is: " + pointValue);
                         // Grab legs portion of payload
                         JSONArray legsObject = routesObject.getJSONArray("legs");
-                        //System.out.println("Legs Object Length: " + legsObject.length());
                         JSONObject overallLegsObject = new JSONObject(legsObject.getString(0));
-                        //System.out.println("Overall Legs object is: " + overallLegsObject);
                         // Compile distance
                         JSONObject totalDistanceObject = new JSONObject(overallLegsObject.getString("distance"));
-                        //String totalDistance = totalDistanceObject.getString("text");
                         tripDistance = totalDistanceObject.getString("text");
-                        //System.out.println("totalDistance is: " + totalDistance);
                         // Compile time
                         JSONObject totalDurationObject = new JSONObject(overallLegsObject.getString("duration"));
-                        //String totalDuration = totalDurationObject.getString("text");
                         tripDuration = totalDurationObject.getString("text");
-                        //System.out.println("totalDuration is: " + totalDuration);
                         // Compile LAT/LON Coordinates
                         JSONArray stepsArray = overallLegsObject.getJSONArray("steps");
-                        //System.out.println("Steps array: " + stepsArray);
-                        //System.out.println("stepsArray Length is: " + stepsArray.length());
                         // For each point, create a new coordinate
                         String[] latitudePoints = new String[stepsArray.length()];
                         String[] longitudePoints = new String[stepsArray.length()];
@@ -388,7 +353,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                             Double latitude = Double.parseDouble(startLocationObject.getString("lat"));
                             Double longitude = Double.parseDouble(startLocationObject.getString("lng"));
                             LatLng tmpNode = new LatLng(latitude, longitude);
-                            //System.out.println("Tmp Node is: " + tmpNode);
                             coordinateList.add(new LatLng(latitude, longitude));
                         }
                     }
@@ -400,7 +364,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             }
         });
     }
-
     /**
      * Gets the current location of the device, and positions the map's camera.
      */
@@ -426,17 +389,14 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                             lastKnownLocation = task.getResult();
                             if (lastKnownLocation != null)
                             {
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                                        new LatLng(lastKnownLocation.getLatitude(),
-                                                lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                             }
                         }
                         else
                         {
                             Log.d(TAG, "Current location is null. Using defaults.");
                             Log.e(TAG, "Exception: %s", task.getException());
-                            mMap.moveCamera(CameraUpdateFactory
-                                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
@@ -459,19 +419,14 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
             locationPermissionGranted = true;
         }
         else
         {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
-
     }
 
     /**
@@ -484,8 +439,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
         {
             // If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
                 locationPermissionGranted = true;
             }
@@ -494,7 +448,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-//        updateLocationUI();
+        // updateLocationUI();
     }
 
     /**
