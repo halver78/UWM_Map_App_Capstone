@@ -101,32 +101,56 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, uwmBuildings);
+        
 
+        fromInput.setAdapter(adapter);
+        toInput.setAdapter(adapter);
 
-        // Markers
+        createToFromMarkers(fromInput, toInput);
+
+        button = (Button) findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(MapsActivity.this,BuildingList.class);
+                startActivity(intent);
+            }
+        });
+
+        // Adding functionality to the button
+        currentLocBtn = findViewById(R.id.currentLoc);
+        currentLocBtn.setOnClickListener(this);
+
+    }
+
+    /**
+     * Creates a Marker at the specified location user has selected for their to&from locations
+     */
+    public void createToFromMarkers(AutoCompleteTextView fromInput, AutoCompleteTextView toInput)
+    {
         Coordinates.init();
         Map<String,double[]> coords = Coordinates.getcoords();
 
-        fromInput.setAdapter(adapter);
+        //fromInput will respond once the user selects one of the options from the autocomplete options
         fromInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String fromInputItem = parent.getItemAtPosition(position).toString();
                 Log.d(TAG, fromInputItem);
-                    if(coords.containsKey(fromInputItem)){
-                        double[] val = coords.get(fromInputItem);
-                        final LatLng fromInputll = new LatLng(val[0],val[1]);
-                        Marker marker = mMap.addMarker(
-                                new MarkerOptions()
-                                        .position(fromInputll)
-                                        .title(fromInputItem)
-                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                    }
+                if(coords.containsKey(fromInputItem)){
+                    double[] val = coords.get(fromInputItem);
+                    final LatLng fromInputll = new LatLng(val[0],val[1]);
+                    Marker marker = mMap.addMarker(
+                            new MarkerOptions()
+                                    .position(fromInputll)
+                                    .title(fromInputItem)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                }
 
             }
         });
 
-        toInput.setAdapter(adapter);
+
+        //toInput will respond once the user selects one of the options from the autocomplete options
         toInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -145,19 +169,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
             }
         });
-
-
-        button = (Button) findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent(MapsActivity.this,BuildingList.class);
-                startActivity(intent);
-            }
-        });
-
-        // Adding functionality to the button
-        currentLocBtn = findViewById(R.id.currentLoc);
-        currentLocBtn.setOnClickListener(this);
 
     }
 
