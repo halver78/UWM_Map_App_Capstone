@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.widget.AdapterView;
+
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -86,6 +87,7 @@ import okhttp3.Response;
 public class MapsActivity extends FragmentActivity implements View.OnClickListener, OnMapReadyCallback, OnMapAndViewReadyListener.OnGlobalLayoutAndMapReadyListener
 {
     public volatile ArrayList<LatLng> coordinateList = new ArrayList<LatLng>();
+    public volatile ArrayList<LatLng> coordinates = new ArrayList<LatLng>();
     public volatile String tripDuration = "";
     public volatile String tripDistance = "";
     public Button button;
@@ -98,6 +100,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     private ActivityMapsBinding binding;
     private boolean locationPermissionGranted;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+
 
     // For directions
     String beginningAddress;
@@ -152,6 +155,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         String[] uwmBuildings = getResources().getStringArray(R.array.uwmBuildings);
         AutoCompleteTextView fromInput = findViewById(R.id.fromInput);
         AutoCompleteTextView toInput = findViewById(R.id.toInput);
+
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, uwmBuildings);
 
         fromInput.setAdapter(adapter);
@@ -171,66 +176,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         currentLocBtn = findViewById(R.id.currentLoc);
         currentLocBtn.setOnClickListener(this);
 
-    }
-
-    /**
-     * Creates a Marker at the specified location user has selected for their to&from locations
-     */
-    public void createToFromMarkers(AutoCompleteTextView fromInput, AutoCompleteTextView toInput)
-    {
-        Coordinates.init();
-        Map<String, double[]> coords = Coordinates.getcoords();
-        //fromInput will respond once the user selects one of the options from the autocomplete options
-        fromInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        fromInput.setAdapter(adapter);
-        fromInput.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                String fromInputItem = parent.getItemAtPosition(position).toString();
-                Log.d(TAG, fromInputItem);
-                if(coords.containsKey(fromInputItem)){
-                    double[] val = coords.get(fromInputItem);
-                    final LatLng fromInputll = new LatLng(val[0],val[1]);
-                    Marker marker = mMap.addMarker(
-                            new MarkerOptions()
-                                    .position(fromInputll)
-                                    .title(fromInputItem)
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                }
-
-            }
-        });
-
-
-        //toInput will respond once the user selects one of the options from the autocomplete options
-        toInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                if (coords.containsKey(fromInputItem))
-                {
-                    double[] val = coords.get(fromInputItem);
-                    final LatLng fromInputll = new LatLng(val[0], val[1]);
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(fromInputll).title(fromInputItem).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                }
-            }
-        });
-
-        toInput.setAdapter(adapter);
-        toInput.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String toInputItem = parent.getItemAtPosition(position).toString();
-                Log.d(TAG, toInputItem);
-                if (coords.containsKey(toInputItem))
-                {
-                    double[] val = coords.get(toInputItem);
-                    final LatLng toInputll = new LatLng(val[0], val[1]);
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(toInputll).title(toInputItem).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                }
-            }
-        });
-
         Button goButton = findViewById(R.id.goButton);
         goButton.setOnClickListener(new View.OnClickListener()
         {
@@ -240,11 +185,15 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 // Process data from text fields.
                 beginningAddress = fromInput.getText().toString();
                 destinationAddress = toInput.getText().toString();
-                ArrayList<LatLng> coordinates = new ArrayList<>();
                 try
                 {
-                    MarkerOptions source = new MarkerOptions().position(new LatLng(43.074903160434566, -87.88194941239998)).title("You");
-                    MarkerOptions destination = new MarkerOptions().position(new LatLng(43.0756846004461, -87.88602947476944)).title("EMS");
+                    createToFromMarkers(fromInput, toInput);
+                    for (int i = 0; i < coordinates.size(); i++)
+                    {
+                        System.out.println("Coord is: " + coordinates.get(i));
+                    }
+                    LatLng source = coordinates.get(0);
+                    LatLng destination = coordinates.get(2);
                     callGoogleAPI(source, destination);
                     // Give it a second to sleep while the HTTP request finishes.
                     try
@@ -259,18 +208,18 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                     PolylineOptions polylineOptions = new PolylineOptions();
                     for (int i = 0; i < coordinateList.size(); i++)
                     {
-                        //System.out.println("OFFICIAL Coordinates at index " + i + " is: " + coordinateList.get(i).longitude);
                         polylineOptions.add(coordinateList.get(i));
                     }
                     polylineOptions.color(Color.BLUE);
+
                     showToast("Total Duration: " + tripDuration + " Total Distance: " + tripDistance);
                     mMap.addPolyline(polylineOptions);
+                    coordinates.clear();
                 }
                 catch (IOException e)
                 {
                     e.printStackTrace();
                 }
-
             }
         });
 
@@ -288,6 +237,70 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         currentLocBtn = findViewById(R.id.currentLoc);
         currentLocBtn.setOnClickListener(this);
 
+    }
+
+    /**
+     * Creates a Marker at the specified location user has selected for their to&from locations
+     */
+    public void createToFromMarkers(AutoCompleteTextView fromInput, AutoCompleteTextView toInput)
+    {
+        Coordinates.init();
+        Map<String,double[]> coords = Coordinates.getcoords();
+
+
+        //fromInput will respond once the user selects one of the options from the autocomplete options
+        fromInput.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String fromInputItem = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, fromInputItem);
+                if(coords.containsKey(fromInputItem)){
+                    double[] val = coords.get(fromInputItem);
+                    final LatLng fromInputll = new LatLng(val[0],val[1]);
+                    gatherResult(fromInputll);
+                    System.out.println("Frominput is: " + fromInputll);
+                    coordinates.add(fromInputll);
+                    Marker marker = mMap.addMarker(
+                            new MarkerOptions()
+                                    .position(fromInputll)
+                                    .title(fromInputItem)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                }
+
+            }
+        });
+
+
+        //toInput will respond once the user selects one of the options from the autocomplete options
+        toInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String toInputItem = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, toInputItem);
+                if(coords.containsKey(toInputItem)){
+                    double[] val = coords.get(toInputItem);
+
+                    final LatLng toInputll = new LatLng(val[0],val[1]);
+                    gatherResult(toInputll);
+                    coordinates.add(toInputll);
+                    Marker marker = mMap.addMarker(
+                            new MarkerOptions()
+                                    .position(toInputll)
+                                    .title(toInputItem)
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                }
+
+            }
+        });
+    }
+
+    public void gatherResult(LatLng point)
+    {
+        if(coordinates.contains(point) != true)
+        {
+            coordinates.add(point);
+        }
     }
 
     // Use this to test your input from the user
@@ -336,11 +349,11 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     /**
      * Call Google Maps API and return stuff.
      */
-    public void callGoogleAPI(MarkerOptions source, MarkerOptions destination) throws IOException
+    public void callGoogleAPI(LatLng source, LatLng destination) throws IOException
     {
         // Grab parameters and format data for request
-        String origin = "origin=" + source.getPosition().latitude + "," + source.getPosition().longitude;
-        String destinationString = "&destination=" + destination.getPosition().latitude + "," + destination.getPosition().longitude;
+        String origin = "origin=" + source.latitude + "," + source.longitude;
+        String destinationString = "&destination=" + destination.latitude + "," + destination.longitude;
         String key = "&key=AIzaSyCLhKMFyZBv-aWajXFnEWIFzhRdI7gNHps";
         String mode = "&mode=walking";
         String directionsURL = "https://maps.googleapis.com/maps/api/directions/json?" + origin + destinationString + key + mode;
