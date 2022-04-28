@@ -68,7 +68,7 @@ public class Coordinates {
         double[] globalwCoord = {43.0293191502236, -87.91373937512545};
         double[] freshwaterCoord = {43.01721237914829, -87.90399133650399};
 
-        coordList.put("UWM Student Union", unionCoord);
+        coordList.put("UWM Student Union*", unionCoord);
         coordList.put("Mellencamp Hall", mellCoord);
         coordList.put("Mitchell Hall", mitchCoord);
         coordList.put("Purin Hall", purinCoord);
@@ -76,8 +76,8 @@ public class Coordinates {
         coordList.put("Spaights Plaza", spaightsCoord);
         coordList.put("Music Building", musicbCoord);
         coordList.put("Theater Building", theatrebCoord);
-        coordList.put("Bolton Hall", boltonCoord);
-        coordList.put("Lubar Hall", lubarCoord);
+        coordList.put("Bolton Hall*", boltonCoord);
+        coordList.put("Lubar Hall*", lubarCoord);
         coordList.put("Golda Meir Library", gmLibraryCoord);
         coordList.put("Curtin Hall", curtinCoord);
         coordList.put("Vogel Hall", vogelCoord);
@@ -104,8 +104,8 @@ public class Coordinates {
         coordList.put("Cunningham Hall", cunninghamCoord);
         coordList.put("Engelmann Hall", engelmannCoord);
         coordList.put("Architecture & Urban Planning Bldg", archiCoord);
-        coordList.put("Chemistry Building", chemistryCoord);
-        coordList.put("Engineering and Math. Science Building", emsCoord);
+        coordList.put("Chemistry Building*", chemistryCoord);
+        coordList.put("Engineering and Math. Science Building*", emsCoord);
         coordList.put("Lapham Hall", laphamCoord);
         coordList.put("Kenwood Interdisciplinary Research Complex", kenwoodrCoord);
         coordList.put("Physics Building", physicsCoord);
