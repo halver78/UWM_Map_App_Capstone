@@ -3,11 +3,11 @@
     <string name="title_activity_maps">MapsActivity</string>
 
     <string-array name="uwmBuildings">
-        <item>UWM Student Union</item>
-        <item>Bolton Hall</item>
-        <item>Lubar Hall</item>
-        <item>Engineering and Math. Science Building</item>
-        <item>Chemistry Building</item>
+        <item>UWM Student Union*</item>
+        <item>Bolton Hall*</item>
+        <item>Lubar Hall*</item>
+        <item>Engineering and Math. Science Building*</item>
+        <item>Chemistry Building*</item>
         <item>Mellencamp Hall</item>
         <item>Mitchell Hall</item>
         <item>Purin Hall</item>
